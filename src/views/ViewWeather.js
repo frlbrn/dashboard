@@ -1,0 +1,273 @@
+import React, { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
+import {
+  Table,
+  Card,
+  CardHeader,
+  CardBody,
+  CardTitle,
+  Row,
+  Col,
+} from "reactstrap";
+import {weatherOptions} from "components/Weather/Options.js"
+
+function get_date_to_display(key)
+{
+  const date_to_display = new Date(key);
+  let currentLocaleDate = date_to_display.toLocaleString('fr-FR',{
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'});
+  return currentLocaleDate
+}
+
+function ViewWeather() {
+  const [days, setDays] = useState([]);
+  const [all_data, setAllData] = useState([]);
+
+      const slides = days.map((day, input) => {
+    return (
+<Col key={input} lg="6" md="6" sm="12">
+  {day["day"]}
+              <Line key={input}
+                  data={day["data"]}
+                  options={weatherOptions}
+                  width={400}
+                  height={200}
+                />
+</Col>
+    );
+    })
+
+  useEffect(() => {
+    //
+    // source : https://www.infoclimat.fr/api-previsions-meteo.html?id=2988507&cntry=FR
+    //
+    const proxy = ""//"https://cors-anywhere.herokuapp.com/"
+    const url = "https://www.infoclimat.fr/public-api/gfs/json?_ll=44.84049,-0.77563&_auth=BR8FEgF%2FUXNTfgE2VSMCK1gwV2INewIlUy9QMwhtAn9WPQRlBmZQNlM9WicCLQM1BSgObQA7BzcCaQZ%2BCXsFZAVvBWkBalE2UzwBZFV6AilYdlc2DS0CJVM5UDUIewJgVjIEZQZ7UDNTP1omAjsDNgUpDnEAPgc5AmUGZQltBWIFbgVgAWdRNFMjAXxVYwI0WGtXZQ1nAmtTYlBjCDYCYVZmBGUGMFA2UyJaOQI7AzAFNQ5tADkHPAJmBn4JewUfBRUFfAEiUXFTaQElVXgCY1g1V2M%3D&_c=64cc221ef16e8953e20e21e14c238206"
+    fetch(proxy+url)
+    .then( response => {
+        if (!response.ok) { throw response }
+        return response.json()  //we only get here if there is no error
+      })
+    .then(result => {
+
+        let evolutions = {}
+        let alldata = []
+        for (let key in result)
+        {
+          if (key === "request_state" && result[key] !== 200)
+            break;
+          if (!key.startsWith("2"))
+            continue;
+          
+          // get the current date
+          let current_date = key.split(" ")[0]
+
+          // create a new entry if this date does not exist yet
+          if (current_date in evolutions === false)
+            evolutions[current_date] = {"labels": [], "temperatures":[], "rain": []}
+
+          // store the label
+          let label = key.split(" ")[1]
+          evolutions[current_date]["labels"].push(label)
+
+          const walking_data = result[key]
+
+          // store the temperature
+          evolutions[current_date]["temperatures"].push(walking_data["temperature"]["2m"] - 273.15)
+
+          // store the rain
+          evolutions[current_date]["rain"].push(walking_data["pluie"])
+
+          let current_data = {}
+          current_data["date"] = key.split(" ")[0]
+          current_data["hour"] = key.split(" ")[1]
+          let temperature = walking_data["temperature"]["2m"] - 273.15
+          temperature = Math.round(temperature * 10) / 10
+          current_data["temperature"] =  temperature
+          current_data["rain"] = walking_data["pluie"]
+          current_data["humidity"] = walking_data["humidite"]["2m"] // humidite relative
+          current_data["icon"] = ""//value.ICON
+          current_data["windspeed"] = walking_data["vent_moyen"]["10m"] // moyenne
+          current_data["windgust"] = walking_data["vent_rafales"]["10m"] // rafale
+          current_data["winddir"] = walking_data["vent_direction"]["10m"] // direction
+          alldata.push(current_data)
+        }
+        setAllData(alldata)
+
+        let days = []
+        Object.keys(evolutions).map((key) => {
+          let day = {"day": get_date_to_display(key),
+          "data" : {
+            labels: evolutions[key]["labels"],
+            datasets: [
+              {
+                label: "Températures",
+                type: "line",
+                borderColor: "#6bd098",
+                backgroundColor: "#6bd098",
+                pointRadius: 2,
+                pointHoverRadius: 10,
+                borderWidth: 3,
+                tension: 0.4,
+                fill: false,
+                data: evolutions[key]["temperatures"],
+                yAxisID: 'yTemp',
+              },
+              {
+                label: "Précipitations",
+                type: "bar",
+                borderColor: "#3e8ad6",
+                backgroundColor: "#3e8ad6",
+                pointRadius: 2,
+                pointHoverRadius: 10,
+                borderWidth: 3,
+                tension: 0,
+                fill: false,
+                data: evolutions[key]["rain"],
+                yAxisID: 'yRain',
+              },
+            ],
+        }}
+        days.push(day)})
+
+          days.shift()
+      setDays(days)
+    })
+    .catch( err => {
+        console.log("!!! Error !!! : "+ err)
+        //err.text().then( errorMessage => {
+          //  console.log(errorMessage)
+          //this.props.dispatch(displayTheError(errorMessage))
+      });
+  }, []);
+
+  /*
+  useEffect(() => {
+    fetch(`https://www.prevision-meteo.ch/services/json/lat=44.840775685860585lng=-0.7761190254573928`)
+    .then( response => {
+        if (!response.ok) { throw response }
+        return response.json()  //we only get here if there is no error
+      })
+    .then(result => {
+        console.log(result)
+
+        let alldata = []
+        let labels = []
+        let values = []
+        new Set([result.fcst_day_0, result.fcst_day_1, result.fcst_day_2, result.fcst_day_3, result.fcst_day_4]).forEach(daily_data => {
+            let current_date = daily_data.date
+            for (const [key, value] of Object.entries(daily_data.hourly_data)) {
+                //labels.push(new Date(current_date.split('.').reverse().join('/') + " " + key.replace("H", ":")))
+                let label = ""
+                if (key === "0H00")
+                  label = current_date
+
+                labels.push(label)
+                values.push(value.TMP2m)
+                let current_data = {}
+                current_data["date"] = daily_data.date
+                current_data["hour"] = key
+                current_data["temperature"] = value.TMP2m
+                current_data["humidity"] = value.RH2m // humidite relative
+                current_data["icon"] = value.ICON
+                current_data["windspeed"] = value.WNDSPD10m // moyenne
+                current_data["windgust"] = value.WNDGUST10m // rafale
+                current_data["winddir"] = value.WNDDIRCARD10 // direction
+                alldata.push(current_data)
+                //data.push([new Date(current_date.split('.').reverse().join('/') + " " + key.replace("H", ":")), value.TMP2m])
+            }
+        });
+
+        let data = {labels: labels, datasets: [{
+          borderColor: "#6bd098",
+          backgroundColor: "#6bd098",
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          borderWidth: 3,
+          tension: 0.4,
+          fill: false,
+          data: values
+        }]}
+        //console.log(data)
+        setTemperaturesEvolution(data)
+        console.log(alldata)
+        setAllData(alldata)
+    })
+    .catch( err => {
+        console.log(err)
+        //err.text().then( errorMessage => {
+          //  console.log(errorMessage)
+          //this.props.dispatch(displayTheError(errorMessage))
+      });
+  }, []);
+  */
+
+  return (
+    <>
+      <div className="content">
+      <Row>
+          <Col md="12">
+            <Card>
+              <CardHeader>
+                <CardTitle tag="h5">Prochains jours</CardTitle>
+              </CardHeader>
+              <CardBody>
+                  <Row>
+                  {slides}
+                  </Row>
+
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col md="12">
+            <Card>
+              <CardHeader>
+                <CardTitle tag="h4">Détails</CardTitle>
+              </CardHeader>
+              <CardBody>
+                <Table striped bordered responsive>
+                  <thead className="text-primary">
+                    <tr>
+                      <th>Date</th>
+                      <th>Hour</th>
+                      <th>Temperature</th>
+                      <th>Rain</th>
+                      <th>Humidity</th>
+                      <th>Vent</th>
+                      <th>Rafale</th>
+                      <th>Direction</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+        {all_data && all_data.map(( current_data, index ) => {
+          return (
+            <tr key={index}>
+              <td>{current_data["date"]}</td>
+              <td>{current_data["hour"]}</td>
+              <td>{current_data["temperature"]}</td>
+              <td>{current_data["rain"]}</td>
+              <td>{current_data["humidity"]}</td>
+              <td>{current_data["windspeed"]}</td>
+              <td>{current_data["windgust"]}</td>
+              <td>{current_data["winddir"]}</td>
+            </tr>
+          );
+        })}
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>        
+      </div>
+    </>
+  );
+}
+
+export default ViewWeather;
