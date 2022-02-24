@@ -21,7 +21,7 @@ function ViewTwitter() {
   const carouselStyle = {
     padding: 0 + 'px !important'
    };
-    const names = ["cyclOptimiste","Maitre_Eolas"]
+    const names = ["jeromepescina","BxMetro", "PrefAquitaine33"]
   const slides = names.map((name, input) => {
     return (
      <CarouselItem
@@ -75,7 +75,6 @@ function ViewTwitter() {
    >
     <CarouselIndicators items={names} activeIndex={activeIndex} onClickHandler={goToIndex} />
     {slides}
-    <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous} />
     <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
    </Carousel>
           </Col>
