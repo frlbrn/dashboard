@@ -65,7 +65,7 @@ const Health = () => {
 
               <MapContainer
           style={{ height: "580px", width: "100%" }}
-          zoom={13}
+          zoom={14}
           center={position}
         >
           <TileLayer url="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -91,8 +91,7 @@ const Health = () => {
               </CardBody>
               <CardFooter>
                 <div className="chart-legend">
-                  <img width="18" src={process.env.PUBLIC_URL+"/dae.png"} alt="dae" /> Défi&nbsp;&nbsp;
-                  <img width="18" src={process.env.PUBLIC_URL+"/dae.png"} alt="dae" /> Défi{" "}
+                  <img width="18" src={process.env.PUBLIC_URL+"/dae.png"} alt="dae" /> Défibrillateurs&nbsp;&nbsp;
                 </div>
                 <hr />
               </CardFooter>
