@@ -32,8 +32,8 @@ async function fetchCsv(csvfile) {
 
 const Health = () => {
     const [dae, setDae] = useState([]);
-    const position = [48.86867, 2.31888];
-     
+    const position = [44.84284, -0.77373];
+
       useEffect(() => {
         GetCsvData("dae.csv").then( data => {
         //console.log(data.data)
@@ -91,7 +91,8 @@ const Health = () => {
               </CardBody>
               <CardFooter>
                 <div className="chart-legend">
-                  <img width="18" src={process.env.PUBLIC_URL+"/dae.png"} alt="dae" /> Défibrillateurs&nbsp;&nbsp;
+                  <img width="18" src={process.env.PUBLIC_URL+"/dae.png"} alt="dae" /> Défi&nbsp;&nbsp;
+                  <img width="18" src={process.env.PUBLIC_URL+"/dae.png"} alt="dae" /> Défi{" "}
                 </div>
                 <hr />
               </CardFooter>
