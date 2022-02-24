@@ -72,7 +72,7 @@ const Health = () => {
 
 {dae && dae.map((item, index) => {
   const point = [item['lon'], item['lat']]
-         
+       if (item['lon'] != undefined && item['lat'] != undefined)  
   return (
       <Marker key={index} position={point} icon={iconDae} >
           <Popup key={index}>
