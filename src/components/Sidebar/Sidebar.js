@@ -64,7 +64,7 @@ function Sidebar(props) {
           href="/"
           className="simple-text logo-normal"
         >
-          Dashboard Title
+          Martignas-sur-Jalle
         </a>
       </div>
       <div className="sidebar-wrapper" ref={sidebar}>
