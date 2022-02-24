@@ -1,4 +1,9 @@
-name;adresse;localisation;electrodes_pediatiques;lon;lat
-toto;rue toto;intérieur;oui;48.86767;2.31788
-titi;rue titi;intérieur;non;48.84767;2.32788
-tutu;av de l'ancien tutu;extérieur;non;48.85767;2.31888
+name;adresse;lon;lat;localisation;electrodes_pediatiques
+Dassault Aviation;Avenue du Régiment D'infanterie;44.8591;-0.7792;intérieur;non
+Club House Colette Besson;183 avenue Maréchal Leclerc;44.8463;-0.7664;exérieur;oui
+Intermarché;Avenue du Colonel Pierre Bourgoin;44.84198;-0.76906;intérieur;non
+Police Municipale;Place Charles de Gaulle;44.84005;-0.77575;extérieur;oui
+Salle Hélène Boucher;20 avenue des Sapinettes;44.84595;-0.78270;intérieur;?
+Collège Martignas;77 avenue des Sapinettes;44.84622;-0.78071;?;non
+Salle de sports Bernard Ceret;17 rue de la Marne;44.84423;-0.77913;intérieur;non
+Site sportif André Dolange;44.843622;-0.779296;extérieur;oui
