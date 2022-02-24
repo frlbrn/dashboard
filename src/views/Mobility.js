@@ -146,8 +146,8 @@ const mapOptions = {
 }
 
 const center = {
-  lat: 48.85871,
-  lng: 2.29442
+  lat: 44.84284,
+  lng: -0.77373
 };
 
 
