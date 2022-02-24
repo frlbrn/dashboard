@@ -91,8 +91,7 @@ const Health = () => {
               </CardBody>
               <CardFooter>
                 <div className="chart-legend">
-                  <img width="18" src={process.env.PUBLIC_URL+"/dae.png"} alt="dae" /> Défi&nbsp;&nbsp;
-                  <img width="18" src={process.env.PUBLIC_URL+"/dae.png"} alt="dae" /> Défi{" "}
+                  <img width="18" src={process.env.PUBLIC_URL+"/dae.png"} alt="dae" /> Défibrillateur&nbsp;&nbsp;
                 </div>
                 <hr />
               </CardFooter>
