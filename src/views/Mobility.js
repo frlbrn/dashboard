@@ -174,7 +174,7 @@ function MapTraffic() {
         <GoogleMapReact
           bootstrapURLKeys={{ key: "AIzaSyB1foRxlJAeNiWFEROfGL1X-ixK6vdBnso" }}
           defaultCenter={center}
-          defaultZoom={10}
+          defaultZoom={14}
           options={mapOptions}
           layerTypes={["TrafficLayer"]}
         >
