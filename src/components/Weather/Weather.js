@@ -44,7 +44,7 @@ const Weather = () => {
     <Row>
     <Col md="12" xs="12">
       <div className="numbers">
-      <p  align="center">{temperature}°C</p>
+      {temperature != "" && <p  align="center">{temperature}°C</p>}
       </div>
     </Col>
   </Row>
