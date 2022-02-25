@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardBody,
   CardTitle,
+  CardFooter,
   Row,
   Col,
 } from "reactstrap";
@@ -220,6 +221,9 @@ function ViewWeather() {
                   </Row>
 
               </CardBody>
+              <CardFooter>
+              <span>Source : <a target="top" href="https://www.infoclimat.fr/api-previsions-meteo.html?id=2988507&cntry=FR">infoclimat.fr</a></span>
+              </CardFooter>     
             </Card>
           </Col>
         </Row>
@@ -262,6 +266,9 @@ function ViewWeather() {
                   </tbody>
                 </Table>
               </CardBody>
+              <CardFooter>
+              <span>Source : <a target="top" href="https://www.infoclimat.fr/api-previsions-meteo.html?id=2988507&cntry=FR">infoclimat.fr</a></span>
+              </CardFooter>     
             </Card>
           </Col>
         </Row>        
