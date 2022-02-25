@@ -234,10 +234,10 @@ function ViewWeather() {
                   <thead className="text-primary">
                     <tr>
                       <th>Date</th>
-                      <th>Hour</th>
-                      <th>Temperature</th>
-                      <th>Rain</th>
-                      <th>Humidity</th>
+                      <th>Heure</th>
+                      <th>Température</th>
+                      <th>Pluie</th>
+                      <th>Humidité</th>
                       <th>Vent</th>
                       <th>Rafale</th>
                       <th>Direction</th>
