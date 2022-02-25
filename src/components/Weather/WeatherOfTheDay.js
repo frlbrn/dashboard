@@ -95,7 +95,7 @@ const WeatherOfTheDay = props => {
             data={evolutions.data}
             options={weatherOptions}
             width={400}
-            height={150}
+            height={200}
         />
     </>
     );
