@@ -95,7 +95,7 @@ function ViewEnvironement() {
         let data = {labels: labels, datasets: [{
           backgroundColor: "rgba(75,192,192,0.2)",
           borderColor: "rgba(75,192,192,1)",
-          pointRadius: 2,
+          pointRadius: 0,
           pointHoverRadius: 10,
           borderWidth: 3,
           tension: 0.4,
@@ -128,7 +128,7 @@ function ViewEnvironement() {
                   data={electromagnetic_wave_evolution}
                   options={options}
                   width={400}
-                  height={150}
+                  height={250}
                 />
               </Col>
               <Col lg="3" md="3" sm="12">
