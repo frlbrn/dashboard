@@ -7,7 +7,7 @@ const weatherOptions = {
     scales: {
       yTemp: {
         title: {
-          text:"Températures (en °C)",
+          text:"Températures (°C)",
           display:true,
         },
         position: 'left',
@@ -23,7 +23,7 @@ const weatherOptions = {
       },
       yRain: {
         title: {
-          text:"Précipitations (en mm)",
+          text:"Précipitations (mm)",
           display:true,
         },
         max: 5,
