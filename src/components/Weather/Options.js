@@ -6,6 +6,10 @@ const weatherOptions = {
     },
     scales: {
       yTemp: {
+        title: {
+          text:"Températures (en °C)",
+          display:true,
+        },
         position: 'left',
         ticks: {
           color: "#9f9f9f",
@@ -18,6 +22,10 @@ const weatherOptions = {
         },
       },
       yRain: {
+        title: {
+          text:"Précipitations (en mm)",
+          display:true,
+        },
         max: 5,
         min: 0,
         position: 'right',
