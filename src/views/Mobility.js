@@ -197,6 +197,7 @@ function MapTraffic() {
                       </div>
                 </CardBody>
                 <CardFooter>
+                  <span>Source : <a href="https://public.opendatasoft.com/explore/dataset/prix_des_carburants_j_7/map/?location=6,46.48839,2.49423&basemap=jawg.light">public.opendatasoft.com</a></span>
                 </CardFooter>
               </Card>
             </Col>
