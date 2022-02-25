@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardBody,
   CardTitle,
+  CardFooter,
   Row,
   Col,
 } from "reactstrap";
@@ -17,6 +18,10 @@ const options = {
   },
   scales: {
     y: {
+      title: {
+        text:"V / m",
+        display:true,
+      },
       max: 0.3,
       min: 0,
       position: 'left',
@@ -69,16 +74,15 @@ function ViewEnvironement() {
         });
 
         let data = {labels: labels, datasets: [{
-          borderColor: "#6bd098",
-          backgroundColor: "#6bd098",
-          pointRadius: 0,
-          pointHoverRadius: 0,
+          backgroundColor: "rgba(75,192,192,0.2)",
+          borderColor: "rgba(75,192,192,1)",
+          pointRadius: 2,
+          pointHoverRadius: 10,
           borderWidth: 3,
           tension: 0.4,
-          fill: false,
+          fill: true,
           data: values
         }]}
-        console.log(data)
         setElectromagneticWaveEvolution(data)
     })
     .catch( err => {
@@ -106,6 +110,13 @@ function ViewEnvironement() {
                   height={150}
                 />
               </CardBody>
+              <CardFooter>
+                Sources:
+                <ul>
+                      <li>Capteur : <a target="top" href="https://www.observatoiredesondes.com/fr/carte-des-ondes/capteurs/martignas-sur-jalle/14781bc3-782e-4e12-a25c-52772c125f26">observatoiredesondes.com</a></li>
+                      <li>Mesures : <a target="top" href="https://opendata.bordeaux-metropole.fr/explore/dataset/rt_ondeelectro_p_histo_jour/information/?disjunctive.ident">opendata.bordeaux-metropole.fr</a></li>
+                  </ul>
+              </CardFooter>
             </Card>
           </Col>
         </Row>
