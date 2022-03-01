@@ -17,7 +17,6 @@ const Weather = () => {
         return response.json()  //we only get here if there is no error
       })
     .then(result => {
-        console.log(result)
         setTemperature(result.current_condition.tmp)
         setIcon(result.current_condition.icon)
 
