@@ -67,7 +67,7 @@ const Health = () => {
           zoom={14}
           center={position}
         >
-          <TileLayer url="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'  />
 
 {dae && dae
@@ -77,10 +77,10 @@ const Health = () => {
   return (
       <Marker key={index} position={point} icon={iconDae} >
           <Popup key={index}>
-          <span key={index}><b>{item['name']}</b></span><br/>
-          <span key={index}>Adresse : {item['adresse']}</span><br/>
-          <span key={index}>Localisation : {item['localisation']}</span><br/>
-          <span key={index}>Electrodes pédiatriques : {item['electrodes_pediatiques']}</span><br/>
+          <span><b>{item['name']}</b></span><br/>
+          <span>Adresse : {item['adresse']}</span><br/>
+          <span>Localisation : {item['localisation']}</span><br/>
+          <span>Electrodes pédiatriques : {item['electrodes_pediatiques']}</span><br/>
           </Popup>
       </Marker>
     )
