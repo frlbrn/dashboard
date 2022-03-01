@@ -12,6 +12,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet"
 import Papa from 'papaparse';
+import PharmacieDeGarde from "components/PharmacieDeGarde.js"
 
 
 async function GetCsvData(csvfile) {
@@ -54,6 +55,9 @@ const Health = () => {
     
       <>
       <div className="content">
+    
+              <PharmacieDeGarde/>
+    
         <Row>
           <Col md="12">
             <Card>
