@@ -70,9 +70,10 @@ const Health = () => {
           <TileLayer url="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'  />
 
-{dae && dae.map((item, index) => {
+{dae && dae
+  .filter(item => item['lon'] !== undefined && item['lat'] !== undefined)
+  .map((item, index) => {
   const point = [item['lon'], item['lat']]
-       if (item['lon'] != undefined && item['lat'] != undefined)  
   return (
       <Marker key={index} position={point} icon={iconDae} >
           <Popup key={index}>
