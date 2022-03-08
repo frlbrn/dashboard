@@ -52,6 +52,43 @@ const weatherOptions = {
     },
   }
 
+  const weatherWindOptions = {
+    responsive: true,
+    plugins: {
+      legend: { display: true },
+      tooltip: { enabled: true },
+    },
+    scales: {
+      ySpeed: {
+        min: 0,
+        title: {
+          text:"Vitesse (km/h)",
+          display:true,
+        },
+        position: 'left',
+        ticks: {
+          color: "#9f9f9f",
+          beginAtZero: true,
+          maxTicksLimit: 5,
+        },
+        grid: {
+          drawBorder: true,
+          display: true,
+        },
+      },
+      x: {
+        grid: {
+          drawBorder: true,
+          display: true,
+        },
+        ticks: {
+          padding: 20,
+          color: "#9f9f9f",
+        },
+      },
+    },
+  }
+
   module.exports = {
-    weatherOptions
+    weatherOptions, weatherWindOptions
   };
