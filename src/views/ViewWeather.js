@@ -10,7 +10,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import {weatherOptions} from "components/Weather/Options.js"
+import {weatherOptions, weatherWindOptions} from "components/Weather/Options.js"
 
 function get_date_to_display(key)
 {
@@ -29,15 +29,32 @@ function ViewWeather() {
 
       const slides = days.map((day, input) => {
     return (
-<Col key={input} lg="6" md="6" sm="12">
-  {day["day"]}
-              <Line key={input}
+<div key={8*input}>
+<Row key={8*input+1}>
+<Col className="ml-auto mr-auto text-center" key={8*input+2} lg="12" md="12" sm="12">
+  <h5>{day["day"]}</h5>
+</Col>
+</Row>
+<Row key={8*input+3}>
+<Col key={8*input+4} lg="6" md="6" sm="12">
+  <Line key={8*input+5}
                   data={day["data"]}
                   options={weatherOptions}
                   width={400}
                   height={200}
                 />
 </Col>
+<Col key={8*input+6} lg="6" md="6" sm="12">
+  <Line key={8*input+7}
+      data={day["data2"]}
+      options={weatherWindOptions}
+      width={400}
+      height={200}
+    />
+</Col>
+</Row>
+<hr/>
+</div>
     );
     })
 
@@ -68,7 +85,7 @@ function ViewWeather() {
 
           // create a new entry if this date does not exist yet
           if (current_date in evolutions === false)
-            evolutions[current_date] = {"labels": [], "temperatures":[], "rain": []}
+            evolutions[current_date] = {"labels": [], "temperatures":[], "rain": [], "humidity": [], "windspeed": [], "windgust": []}
 
           // store the label
           let label = key.split(" ")[1]
@@ -81,6 +98,13 @@ function ViewWeather() {
 
           // store the rain
           evolutions[current_date]["rain"].push(walking_data["pluie"])
+
+          // store the humidity
+          evolutions[current_date]["humidity"].push(walking_data["humidite"]["2m"])
+
+          // store wind info
+          evolutions[current_date]["windspeed"].push(walking_data["vent_moyen"]["10m"])
+          evolutions[current_date]["windgust"].push(walking_data["vent_rafales"]["10m"])
 
           let current_data = {}
           current_data["date"] = key.split(" ")[0]
@@ -131,7 +155,39 @@ function ViewWeather() {
                 yAxisID: 'yRain',
               },
             ],
-        }}
+        },
+        "data2" : {
+          labels: evolutions[key]["labels"],
+          datasets: [
+            {
+              label: "Vent moyen",
+              type: "line",
+              borderColor: "#15c257",
+              backgroundColor: "#15c257",
+              pointRadius: 2,
+              pointHoverRadius: 10,
+              borderWidth: 3,
+              tension: 0.2,
+              fill: false,
+              data: evolutions[key]["windspeed"],
+              yAxisID: 'ySpeed',
+            },
+            {
+              label: "Rafales",
+              type: "line",
+              borderColor: "#fc1c03",
+              backgroundColor: "#fc1c03",
+              pointRadius: 2,
+              pointHoverRadius: 10,
+              borderWidth: 3,
+              tension: 0.2,
+              fill: false,
+              data: evolutions[key]["windgust"],
+              yAxisID: 'ySpeed',
+            },
+          ],
+      }
+    }
         days.push(day)})
 
           days.shift()
@@ -216,9 +272,7 @@ function ViewWeather() {
                 <CardTitle tag="h5">Prochains jours</CardTitle>
               </CardHeader>
               <CardBody>
-                  <Row>
                   {slides}
-                  </Row>
 
               </CardBody>
               <CardFooter>
