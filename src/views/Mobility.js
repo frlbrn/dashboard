@@ -1,6 +1,6 @@
 import React from "react";
 // reactstrap components
-import { Card, CardHeader, CardTitle, CardBody, CardFooter, Row, Col } from "reactstrap";
+import { Card, CardHeader, CardTitle, CardBody, Row, Col } from "reactstrap";
 import GoogleMapReact from 'google-map-react';
 import Fuel from "components/Fuel/Fuel.js";
 
@@ -187,20 +187,8 @@ function MapTraffic() {
             </Card>
           </Col>
           <Col lg="3" md="12" sm="12">
-              <Card>
-                <CardHeader>
-                <CardTitle tag="h4">Carburants</CardTitle>
-              </CardHeader>
-              <CardBody>
-                      <div className="numbers">
-                        <Fuel city="MARTIGNAS-SUR-JALLE"/>
-                      </div>
-                </CardBody>
-                <CardFooter>
-                  <span>Source : <a href="https://public.opendatasoft.com/explore/dataset/prix_des_carburants_j_7/map/?location=6,46.48839,2.49423&basemap=jawg.light">public.opendatasoft.com</a></span>
-                </CardFooter>
-              </Card>
-            </Col>
+            <Fuel city="MARTIGNAS-SUR-JALLE"/>
+          </Col>
         </Row>
       </div>
     </>
