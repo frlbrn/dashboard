@@ -10,7 +10,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import {weatherOptions, weatherWindOptions} from "components/Weather/Options.js"
+import {weatherOptions, weatherHumidityOptions, weatherWindOptions} from "components/Weather/Options.js"
 
 function get_date_to_display(key)
 {
@@ -29,14 +29,17 @@ function ViewWeather() {
 
       const slides = days.map((day, input) => {
     return (
-<div key={8*input}>
+
+      <Col key={8*input} md="12">
+      <Card>
+        <CardHeader>
+          <CardTitle tag="h5">{day["day"]}</CardTitle>
+        </CardHeader>
+        <CardBody>
+
+
 <Row key={8*input+1}>
-<Col className="ml-auto mr-auto text-center" key={8*input+2} lg="12" md="12" sm="12">
-  <h5>{day["day"]}</h5>
-</Col>
-</Row>
-<Row key={8*input+3}>
-<Col key={8*input+4} lg="6" md="6" sm="12">
+<Col key={8*input+2} lg="4" md="12" sm="12">
   <Line key={8*input+5}
                   data={day["data"]}
                   options={weatherOptions}
@@ -44,17 +47,32 @@ function ViewWeather() {
                   height={200}
                 />
 </Col>
-<Col key={8*input+6} lg="6" md="6" sm="12">
-  <Line key={8*input+7}
-      data={day["data2"]}
+<Col key={8*input+3} lg="4" md="6" sm="12">
+  <Line key={8*input+4}
+                  data={day["dataHumidity"]}
+                  options={weatherHumidityOptions}
+                  width={400}
+                  height={200}
+                />
+</Col>
+<Col key={8*input+5} lg="4" md="6" sm="12">
+  <Line key={8*input+6}
+      data={day["dataWind"]}
       options={weatherWindOptions}
       width={400}
       height={200}
     />
 </Col>
 </Row>
-<hr/>
-</div>
+
+
+</CardBody>
+        <CardFooter>
+        <span>Source : <a target="top" href="https://www.infoclimat.fr/api-previsions-meteo.html?id=2988507&cntry=FR">infoclimat.fr</a></span>
+        </CardFooter>     
+      </Card>
+    </Col>
+
     );
     })
 
@@ -88,7 +106,7 @@ function ViewWeather() {
             evolutions[current_date] = {"labels": [], "temperatures":[], "rain": [], "humidity": [], "windspeed": [], "windgust": []}
 
           // store the label
-          let label = key.split(" ")[1]
+          let label = key.split(" ")[1].slice(0,-3)
           evolutions[current_date]["labels"].push(label)
 
           const walking_data = result[key]
@@ -156,7 +174,25 @@ function ViewWeather() {
               },
             ],
         },
-        "data2" : {
+        "dataHumidity" : {
+          labels: evolutions[key]["labels"],
+          datasets: [
+            {
+              label: "Humidité",
+              type: "line",
+              borderColor: "#3e8ad6",
+              backgroundColor: "#3e8ad6",
+              pointRadius: 2,
+              pointHoverRadius: 10,
+              borderWidth: 3,
+              tension: 0.4,
+              fill: false,
+              data: evolutions[key]["humidity"],
+              yAxisID: 'y',
+            }
+          ],
+      },
+        "dataWind" : {
           labels: evolutions[key]["labels"],
           datasets: [
             {
@@ -266,20 +302,7 @@ function ViewWeather() {
     <>
       <div className="content">
       <Row>
-          <Col md="12">
-            <Card>
-              <CardHeader>
-                <CardTitle tag="h5">Prochains jours</CardTitle>
-              </CardHeader>
-              <CardBody>
-                  {slides}
-
-              </CardBody>
-              <CardFooter>
-              <span>Source : <a target="top" href="https://www.infoclimat.fr/api-previsions-meteo.html?id=2988507&cntry=FR">infoclimat.fr</a></span>
-              </CardFooter>     
-            </Card>
-          </Col>
+{slides}
         </Row>
         <Row>
           <Col md="12">
