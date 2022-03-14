@@ -31,8 +31,16 @@ async function fetchCsv(csvfile) {
 }
 
 const Health = () => {
-    const [dae, setDae] = useState([]);
-    const position = [44.84284, -0.77373];
+  const [dae, setDae] = useState([]);
+  const [pharmacies, setPharmacies] = useState([]);
+  const position = [44.84284, -0.77373];
+
+      useEffect(() => {
+        GetCsvData("pharmacies.csv").then( data => {
+        //console.log(data.data)
+        setPharmacies(data.data)
+      });
+      }, []);
 
       useEffect(() => {
         GetCsvData("dae.csv").then( data => {
@@ -40,6 +48,13 @@ const Health = () => {
         setDae(data.data)
       });
       }, []);
+
+    let iconPharmacie = L.icon({
+      iconSize: [25, 25],
+      iconAnchor: [0, 0],
+      popupAnchor: [10, 0],
+      iconUrl: process.env.PUBLIC_URL+"/pharmacie.png"
+    });
 
     let iconDae = L.icon({
       iconSize: [25, 25],
@@ -85,6 +100,23 @@ const Health = () => {
           <span>Adresse : {item['adresse']}</span><br/>
           <span>Localisation : {item['localisation']}</span><br/>
           <span>Electrodes pédiatriques : {item['electrodes_pediatiques']}</span><br/>
+          </Popup>
+      </Marker>
+    )
+  })
+}
+
+{pharmacies && pharmacies
+  .filter(item => item['lon'] !== undefined && item['lat'] !== undefined)
+  .map((item, index) => {
+  const point = [item['lon'], item['lat']]
+  return (
+      <Marker key={index} position={point} icon={iconPharmacie} >
+          <Popup key={index}>
+          <span><b>{item['name']}</b></span><br/>
+          <span><b>Adresse</b> : {item['adresse']}</span><br/>
+          <span><b>Téléphone</b> : {item['telephone']}</span><br/>
+          <span><b>Lien</b> : <a href="{item['facebook']}">facebook</a></span><br/>
           </Popup>
       </Marker>
     )
