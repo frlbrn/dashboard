@@ -3,6 +3,7 @@ import React from "react";
 import { Card, CardHeader, CardTitle, CardBody, Row, Col } from "reactstrap";
 import GoogleMapReact from 'google-map-react';
 import Fuel from "components/Fuel/Fuel.js";
+import Velo from "components/Mobility/Velo.js";
 
 const mapStyles = [
   {
@@ -189,6 +190,12 @@ function MapTraffic() {
           <Col lg="3" md="12" sm="12">
             <Fuel city="MARTIGNAS-SUR-JALLE"/>
           </Col>
+        </Row>
+        <Row>
+        <Col lg="12" md="12" sm="12">
+        <Velo/>
+        </Col>
+
         </Row>
       </div>
     </>
