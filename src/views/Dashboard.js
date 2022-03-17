@@ -84,7 +84,7 @@ function Dashboard() {
           <Col lg="12" md="12" sm="12">
             <Card className="card-stats">
             <CardHeader>
-                <p className="card-category">Météo du jour</p>
+                <p className="card-category">Météo</p>
               </CardHeader>
                <CardBody>
                  <Row>
