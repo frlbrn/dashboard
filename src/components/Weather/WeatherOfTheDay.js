@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Line } from "react-chartjs-2";
-import {weatherOptions} from "components/Weather/Options.js"
+import {Row, Col} from "reactstrap";
+import {weatherOptions, weatherHumidityOptions, weatherWindOptions} from "components/Weather/Options.js"
 
 const WeatherOfTheDay = props => {
     const [evolutions, setEvolutions] = useState({});
@@ -31,6 +32,9 @@ const WeatherOfTheDay = props => {
             let labels = []
             let evol_temperatures = []
             let evol_rain = []
+            let evol_humidity = []
+            let evol_windspeed = []
+            let evol_windgust = []
             for (let key in result)
             {
               if (key === "request_state" && result[key] !== 200)
@@ -41,16 +45,27 @@ const WeatherOfTheDay = props => {
               let label = ""
               if (key.split(" ")[0] !== currentDate)
                 continue;
-              label = key.split(" ")[1]
+              label = key.split(" ")[1].slice(0,-3)
               labels.push(label)
     
               const walking_data = result[key]
+
+              // store the temperature
               evol_temperatures.push(walking_data["temperature"]["2m"] - 273.15)
+
+              // store the rain
               evol_rain.push(walking_data["pluie"])
+
+              // store the humidity
+              evol_humidity.push(walking_data["humidite"]["2m"])
+
+              // store wind info
+              evol_windspeed.push(walking_data["vent_moyen"]["10m"])
+              evol_windgust.push(walking_data["vent_rafales"]["10m"])
             }
     
             setEvolutions({
-            data: {
+            "data": {
                 labels: labels,
                 datasets: [
                   {
@@ -81,6 +96,58 @@ const WeatherOfTheDay = props => {
                   },
                 ],
             },
+            "dataHumidity" : {
+              labels: labels,
+              datasets: [
+                {
+                  label: "Humidité",
+                  type: "line",
+                  borderColor: "#3e8ad6",
+                  backgroundColor: "#3e8ad6",
+                  pointRadius: 2,
+                  pointHoverRadius: 10,
+                  borderWidth: 3,
+                  tension: 0.4,
+                  fill: false,
+                  data: evol_humidity,
+                  yAxisID: 'y',
+                }
+              ],
+          },
+          "dataWind" : {
+            labels: labels,
+            datasets: [
+              {
+                label: "Vent moyen",
+                type: "line",
+                borderColor: "#15c257",
+                backgroundColor: "#15c257",
+                pointRadius: 2,
+                pointHoverRadius: 10,
+                borderWidth: 3,
+                tension: 0.2,
+                fill: false,
+                data: evol_windspeed,
+                yAxisID: 'ySpeed',
+              },
+              {
+                label: "Rafales",
+                type: "line",
+                borderColor: "#fc1c03",
+                backgroundColor: "#fc1c03",
+                pointRadius: 2,
+                pointHoverRadius: 10,
+                borderWidth: 3,
+                tension: 0.2,
+                fill: false,
+                data: evol_windgust,
+                yAxisID: 'ySpeed',
+              },
+            ],
+        }      
+
+
+
           })
         })
         .catch( err => {
@@ -93,12 +160,32 @@ const WeatherOfTheDay = props => {
     
     return (
     <>
+    <Row>
+    <Col lg="4" md="12" sm="12">
         <Line
             data={evolutions.data}
             options={weatherOptions}
             width={400}
             height={200}
         />
+    </Col>
+    <Col lg="4" md="6" sm="12">
+        <Line
+            data={evolutions.dataHumidity}
+            options={weatherHumidityOptions}
+            width={400}
+            height={200}
+        />
+    </Col>
+    <Col lg="4" md="6" sm="12">
+        <Line
+            data={evolutions.dataWind}
+            options={weatherWindOptions}
+            width={400}
+            height={200}
+        />
+    </Col>
+    </Row>
     </>
     );
 }
